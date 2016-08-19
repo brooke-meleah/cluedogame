@@ -60,6 +60,7 @@ public class dicePanel extends JPanel implements ActionListener{
 	
 	private void rollDice() {
 		
+		
 		double d = 6*Math.random()+1;
 		int i = (int)d;
 		if(i==1){
