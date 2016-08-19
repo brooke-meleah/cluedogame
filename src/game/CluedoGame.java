@@ -29,11 +29,8 @@ public class CluedoGame {
 		deck = new Deck(this);
 		solution = deck.generateSoln();
 		deck.shuffle();
-
 		reference = new Deck(this);
-
 		System.out.println("Welcome to CludoGame!");
-		newGame();
 	}
 
 	/**

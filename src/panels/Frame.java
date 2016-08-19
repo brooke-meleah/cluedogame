@@ -47,10 +47,6 @@ public class Frame extends JFrame implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (e.getX() < 100 && e.getY() > 470 && e.getY() < 630) {
-			// GamePanel.diceRoll();
-		}
-
 		if (e.getX() < 450 && e.getY() < 495) {
 			// System.out.println("x: " + e.getX());
 			// System.out.println("y: " + e.getY());
