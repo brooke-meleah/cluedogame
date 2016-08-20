@@ -39,7 +39,6 @@ public class CluedoGame {
 	 */
 	public void newGame(){
 		board = new Board(this);
-		allocatePlayers();
 		deck.deal(start);
 
 		current = start;
@@ -91,58 +90,13 @@ public class CluedoGame {
 
 
 	/**
-	 * This method asks the user for input on which characters are playing
-	 * in the turn order 
+	 * This method takes the input from a character select panel and 
+	 * creates the order in the game (the players are all linked, so
+	 * by setting the start you bring in all the linked players via 
+	 * the Player.next fields/methods
 	 */
-	public void allocatePlayers(){
-		read = new Scanner(System.in);
-
-		//create a quick character list
-		List<String> charlist = Arrays.asList("Miss Scarlett", "Professor Plum", "Mrs. Peacock",
-				"Reverend Green", "Colonel Mustard", "Mrs. White");
-		Player prev = null;
-
-		//iterate through each character
-		for (String charname : charlist){
-			//ask the user for input
-			System.out.println("Is " + charname + " Playing? [y/n]");
-
-			//take and read the input
-			read = new Scanner(System.in);
-			String in = read.next();
-
-			if (in.contains("/"))                           //a slash comes before every command input
-				parseCommand(read.nextLine());           //run a seperate check command method to see what they want
-
-			else if (in.equalsIgnoreCase("y")){          //yes, this player is chosen
-				System.out.println("Player name?"); 
-				read = new Scanner(System.in);
-				String name = read.nextLine();
-				//construct either a start player or a link in the chain
-				if (start == null){
-					start = new Player(name, charname, null);
-					board.placePlayer(start);
-					prev = start;
-					System.out.println("Start player created: " + name + " as " + charname);
-				}
-				else {
-					Player p = new Player (name, charname, prev);
-					board.placePlayer(p);
-					prev.setNext(p);
-					prev = p;
-					System.out.println("Player created: " + name + " as " + charname);
-				}
-			}
-		}
-		prev.setNext(start);
-		
-		//check there's more than 2 players.
-		if (start.next().equals(start) || start.next().next().equals(start)){
-			System.out.println("Not enough players!");
-			allocatePlayers();
-		}
-
-		System.out.println("Loop complete!");
+	public void allocatePlayers(List<Player> pList){
+		start = pList.get(0);
 	}
 
 	/**

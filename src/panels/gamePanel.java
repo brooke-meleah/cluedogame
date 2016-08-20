@@ -18,7 +18,7 @@ public class gamePanel extends JPanel {
 
 	public gamePanel() {
 		try {
-			boardImg = ImageIO.read(new File("../DiceWithJpanels/images/clueboard.png"));
+			boardImg = ImageIO.read(new File("../cluedo2/images/clueboard.png"));
 
 		} catch (IOException e) {
 			System.out.println("file error.board");

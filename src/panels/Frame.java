@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -17,45 +18,62 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import main.Main;
+
 public class Frame extends JFrame implements MouseListener, ActionListener {
 
-	gamePanel gp;
-	dicePanel dp;
-	handPanel hp;
-	optionPanel op;
-	textPanel tp;
+	//backreference because helpful!
+	public Main main;
+	
+	//keep all our panels in one place
+	private gamePanel gp;
+	private dicePanel dp;
+	private handPanel hp;
+	private optionPanel op;
+	private textPanel tp;
+	public CharacterSelect cs;
 	
 	JButton confirm;
 
-	public Frame(){
+	public Frame(Main m){
 		super ("Cluedo Game");
+		
+		main = m;
+		
 		gp = new gamePanel();
 		dp = new dicePanel();
 		hp = new handPanel();
 		op = new optionPanel();
 		tp = new textPanel();
+		cs = new CharacterSelect(this, m.getGame());
 		setLayout(new BorderLayout());
 		add(gp, BorderLayout.NORTH);
 		add(dp, BorderLayout.WEST);
-		add(hp, BorderLayout.CENTER);
+		add(hp, BorderLayout.SOUTH);
 		add(op, BorderLayout.EAST);
-		add(tp, BorderLayout.SOUTH);
+		add(tp, BorderLayout.CENTER);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		addMouseListener(this);
 		setResizable(false);
 		setVisible(true);
+		
+		repaint();
 	}
 
-	public Character characterSelect(List<String> available){
 
-
-		return null;
+	public void characterSelect(){
+		
+		//keep calling the method until the players are done 
+		while (!cs.finished){
+			cs.inputChar();
+		}
+		
 	}
 
 	public static void main(String[] args) {
-		new Frame();
+		new Frame(new Main());
 	}
 
 	@Override

@@ -24,9 +24,10 @@ public class Main {
 	private Frame frame;
 	
 	public Main(){
-		frame = new Frame();
+		frame = new Frame(this);
 		game = new CluedoGame();
 		board = game.board;
+		characterSelect();
 	}
 	
 	/**
@@ -36,18 +37,16 @@ public class Main {
 		game.newGame();
 	}
 	
-	public void setup(){
-		
+	/**
+	 * Select the characters using the UI - specifically the CharacterSelect 
+	 * panel through the Frame.
+	 */
+	public void characterSelect(){
+		frame.characterSelect();
 	}
 	
-	public void characterSelect(){
-		List<String> charList = Arrays.asList("Miss Scarlett", "Professor Plum", "Mrs. Peacock",
-				"Reverend Green", "Colonel Mustard", "Mrs. White");
-		
-		while (!charList.isEmpty()){
-			//String selected = frame.characterSelect().toString();
-			
-		}
+	public CluedoGame getGame(){
+		return game;
 	}
 	
 	public static void main(String[] args){
