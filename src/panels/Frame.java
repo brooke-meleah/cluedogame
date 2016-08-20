@@ -1,19 +1,31 @@
 package panels;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
-public class Frame extends JFrame implements MouseListener {
+public class Frame extends JFrame implements MouseListener, ActionListener {
 
 	gamePanel gp;
 	dicePanel dp;
 	handPanel hp;
 	optionPanel op;
 	textPanel tp;
+	
+	JButton confirm;
 
 	public Frame(){
 		super ("Cluedo Game");
@@ -28,12 +40,18 @@ public class Frame extends JFrame implements MouseListener {
 		add(hp, BorderLayout.CENTER);
 		add(op, BorderLayout.EAST);
 		add(tp, BorderLayout.SOUTH);
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		addMouseListener(this);
 		setResizable(false);
 		setVisible(true);
+	}
+
+	public Character characterSelect(List<String> available){
+
+
+		return null;
 	}
 
 	public static void main(String[] args) {
@@ -75,5 +93,10 @@ public class Frame extends JFrame implements MouseListener {
 		// System.out.println("exit");
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent evt) {
+		Object src = evt.getSource();
 	}
 }

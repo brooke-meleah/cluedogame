@@ -30,12 +30,12 @@ public class dicePanel extends JPanel implements ActionListener{
 
 	public dicePanel() {
 		try {
-			oneImg = ImageIO.read(new File("../DiceWithJpanels/images/cluedo1.jpg"));
-			twoImg = ImageIO.read(new File("../DiceWithJpanels/images/cluedo2.png"));
-			threeImg = ImageIO.read(new File("../DiceWithJpanels/images/cluedo3.png"));
-			fourImg = ImageIO.read(new File("../DiceWithJpanels/images/cluedo4.jpg"));
-			fiveImg = ImageIO.read(new File("../DiceWithJpanels/images/cluedo5.jpg"));
-			sixImg = ImageIO.read(new File("../DiceWithJpanels/images/cluedo6.jpg"));
+			oneImg = ImageIO.read(new File("../cluedo2/images/cluedo1.jpg"));
+			twoImg = ImageIO.read(new File("../cluedo2/images/cluedo2.png"));
+			threeImg = ImageIO.read(new File("../cluedo2/images/cluedo3.png"));
+			fourImg = ImageIO.read(new File("../cluedo2/images/cluedo4.jpg"));
+			fiveImg = ImageIO.read(new File("../cluedo2/images/cluedo5.jpg"));
+			sixImg = ImageIO.read(new File("../cluedo2/images/cluedo6.jpg"));
 			drawnImg = oneImg;
 		} catch (IOException e) {
 			System.out.println("file error.dice");

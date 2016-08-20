@@ -40,8 +40,14 @@ public class gamePanel extends JPanel {
 		
 	}
 
+	/**
+	 * This method is passed an x,y from the mouseClicked event
+	 * if the mouse is clicked on a board, and then it will 
+	 * return the dimensions of the square clicked.
+	 * @param x
+	 * @param y
+	 */
 	public void findSquare(int x, int y) {
-		//System.out.println("aa");
 		int a = x / 20 + 1;
 		int b = (y - 25) / 20 + 1;
 		System.out.println("Square[" + a + "," + b + "]");

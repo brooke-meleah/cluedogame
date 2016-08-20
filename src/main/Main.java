@@ -1,6 +1,11 @@
 package main;
 
 import game.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import cards.*;
 import locations.*;
 import panels.*;
@@ -29,6 +34,20 @@ public class Main {
 	 */
 	public void newGame(){
 		game.newGame();
+	}
+	
+	public void setup(){
+		
+	}
+	
+	public void characterSelect(){
+		List<String> charList = Arrays.asList("Miss Scarlett", "Professor Plum", "Mrs. Peacock",
+				"Reverend Green", "Colonel Mustard", "Mrs. White");
+		
+		while (!charList.isEmpty()){
+			//String selected = frame.characterSelect().toString();
+			
+		}
 	}
 	
 	public static void main(String[] args){
