@@ -1,7 +1,12 @@
 package game;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import cards.Card;
 import locations.Location;
@@ -23,6 +28,7 @@ public class Player {
 	private Player previous; // the 'previous' player in the turn order
 	private String playerSymbol;
 	public Location location;
+	private Image charImg;
 
 	private boolean accused; // players who have accused incorrectly cannot take
 								// turns
@@ -119,6 +125,43 @@ public class Player {
 		}
 		return 'N';
 
+	}
+	
+	/**
+	 * Returns a relevant image token to represent the players movement on the board.
+	 * 
+	 * @return
+	 */
+	public Image getImage(){
+		
+		String charname;
+		
+		//get the particular token based on which character is in play
+		switch (character) {
+		case "Miss Scarlett":
+			charname = "scarlett";
+		case "Professor Plum":
+			charname = "plum";
+		case "Mrs. Peacock":
+			charname = "peacock";
+		case "Reverend Green":
+			charname = "green";
+		case "Colonel Mustard":
+			charname = "mustard";
+		default:
+			charname = "white";
+		}
+		
+		//read images from the input folder 
+		try {
+			charImg = ImageIO.read(new File("../cluedo2/images/" + charname +"token.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("char token failure.");
+		}
+		
+		return charImg;
 	}
 
 	/**

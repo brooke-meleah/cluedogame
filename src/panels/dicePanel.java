@@ -15,84 +15,138 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class dicePanel extends JPanel implements ActionListener{
+public class dicePanel extends JPanel implements ActionListener {
+
+	// number images
 	private static Image oneImg;
 	private static Image twoImg;
 	private static Image threeImg;
 	private static Image fourImg;
 	private static Image fiveImg;
 	private static Image sixImg;
-
-	private JButton roll; 
 	
+	private static Image clueNum;
+
+	// buttons
+	private JButton roll;
+	private JButton accuse;
+	private JButton suggest;
+	private JButton endTurn;
+
+	// the image that actually gets drawn4
 	public Image drawnImg;
 
-
+	/**
+	 * Constructor for dicePanel , reads in all the images of the numbers has
+	 * buttons for the suggestion, accuse ,dice roll and end turn
+	 * 
+	 */
 	public dicePanel() {
 		try {
-			oneImg = ImageIO.read(new File("../cluedo2/images/cluedo1.jpg"));
-			twoImg = ImageIO.read(new File("../cluedo2/images/cluedo2.png"));
-			threeImg = ImageIO.read(new File("../cluedo2/images/cluedo3.png"));
-			fourImg = ImageIO.read(new File("../cluedo2/images/cluedo4.jpg"));
-			fiveImg = ImageIO.read(new File("../cluedo2/images/cluedo5.jpg"));
-			sixImg = ImageIO.read(new File("../cluedo2/images/cluedo6.jpg"));
-			drawnImg = oneImg;
+			// reading in number images
+			oneImg = ImageIO.read(new File("../cluedo2/images/one.png"));
+			twoImg = ImageIO.read(new File("../cluedo2/images/two.png"));
+			threeImg = ImageIO.read(new File("../cluedo2/images/three.png"));
+			fourImg = ImageIO.read(new File("../cluedo2/images/four.png"));
+			fiveImg = ImageIO.read(new File("../cluedo2/images/five.jpg"));
+			sixImg = ImageIO.read(new File("../cluedo2/images/six.jpg"));
+			clueNum = ImageIO.read(new File("../cluedo2/images/cluenumber.png"));
+			drawnImg = clueNum;
 		} catch (IOException e) {
-			System.out.println("file error.dice");
+			System.out.println("file error.dice" + e.getMessage());
 		}
-		Dimension size = new Dimension(100, 160);
+		Dimension size = new Dimension(150, 470);
 		setPreferredSize(size);
 		setBorder(BorderFactory.createLineBorder(Color.black));
-		Dimension button = new Dimension(100, 30);
+
+		// setting the dimension used for the buttons
+		Dimension button = new Dimension(140, 29);
+
+		
 		roll = new JButton("Roll Dice");
+		accuse = new JButton("Accuse");
+		suggest = new JButton("Suggest");
+		endTurn = new JButton("End Turn");
+
+		accuse.setPreferredSize(button);
+		accuse.addActionListener(this);
+		add(accuse, BorderLayout.SOUTH);
+
+		suggest.setPreferredSize(button);
+		suggest.addActionListener(this);
+		add(suggest, BorderLayout.SOUTH);
+
+		endTurn.setPreferredSize(button);
+		endTurn.addActionListener(this);
+		add(endTurn, BorderLayout.SOUTH);
+
 		roll.setPreferredSize(button);
 		roll.addActionListener(this);
-		add(roll,BorderLayout.NORTH);
-		
+		add(roll, BorderLayout.NORTH);
+
 	}
+
+	/**
+	 * Works out what button has be pushed and performs the appropriate action
+	 * 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-	    Object src = evt.getSource();
-	    if (src == roll) {
-	  rollDice();
-	    } 
+		Object src = evt.getSource();
+		if (src == roll) {
+			rollDice();
+		} else if (src == accuse) {
+			// do the accuse thing
+			System.out.println("ACCUSE");
+		} else if (src == suggest) {
+			// do the suggest thing
+			System.out.println("SUGGEST");
+
+		} else if (src == endTurn) {
+			// do the end turn thing
+			System.out.println("YOU HAVE ENDED");
+
+		}
 	}
-	
+	/**
+	 * the diceRoll method returns a number between 0 and 7, like rolling a dice
+	 * then updates the drawn number so that it shows what number was rolled
+	 * 
+	 */
 	private void rollDice() {
-		
-		
-		double d = 6*Math.random()+1;
-		int i = (int)d;
-		if(i==1){
-			drawnImg=oneImg;
-		}
-		else if(i==2){
-			drawnImg=twoImg;
-		}
-		else if(i==3){
-			drawnImg=threeImg;
-		}
-		else if(i==4){
-			drawnImg=fourImg;
-		}
-		else if(i==5){
-			drawnImg=fiveImg;
-		}
-		else{
+
+		double d = 6 * Math.random() + 1;
+		int i = (int) d;
+		if (i == 1) {
+			drawnImg = oneImg;
+		} else if (i == 2) {
+			drawnImg = twoImg;
+		} else if (i == 3) {
+			drawnImg = threeImg;
+		} else if (i == 4) {
+			drawnImg = fourImg;
+		} else if (i == 5) {
+			drawnImg = fiveImg;
+		} else {
 			drawnImg = sixImg;
 		}
 		repaint();
-		
+
 	}
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(100, 160);
-	}
+
+	// @Override
+	// public Dimension getPreferredSize() {
+	// return new Dimension(150, 450);
+	// }
+
+	/**
+	 * draws the current number that has been rolled 
+	 * 
+	 */
 	@Override
 	public void paintComponent(Graphics gr) {
 		super.paintComponent(gr);
-		gr.drawImage(drawnImg, 10, 60, null, null);
+		gr.drawImage(drawnImg, 10, 150, null, null);
 	}
 
-   
 }

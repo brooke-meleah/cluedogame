@@ -36,39 +36,36 @@ public class Frame extends JFrame implements MouseListener, ActionListener {
 	JButton confirm;
 
 	public Frame(Main m){
+		
 		super ("Cluedo Game");
-		
-		main = m;
-		
 		gp = new gamePanel();
 		dp = new dicePanel();
 		hp = new handPanel();
-		op = new optionPanel();
-		tp = new textPanel();
 		cs = new CharacterSelect(this, m.getGame());
-		setLayout(new BorderLayout());
-		add(gp, BorderLayout.NORTH);
-		add(dp, BorderLayout.WEST);
-		add(hp, BorderLayout.SOUTH);
-		add(op, BorderLayout.EAST);
-		add(tp, BorderLayout.CENTER);
 
+		
+		setLayout(new BorderLayout());
+		//setting positions 
+		add(gp, BorderLayout.WEST);
+		add(dp, BorderLayout.CENTER);
+		add(hp, BorderLayout.SOUTH);
+		
+		main = m;
+	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		addMouseListener(this);
 		setResizable(false);
 		setVisible(true);
-		
-		repaint();
 	}
 
 
 	public void characterSelect(){
 		
 		//keep calling the method until the players are done 
-		while (!cs.finished){
-			cs.inputChar();
-		}
+		//while (!cs.finished){
+			//cs.inputChar();
+		//}
 		
 	}
 

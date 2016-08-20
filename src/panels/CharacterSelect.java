@@ -41,6 +41,7 @@ public class CharacterSelect extends JPanel implements ActionListener{
 		frame = parent;
 		chars = new ArrayList<Player>();
 		available = charList;
+		setVisible(true);
 	}
 	
 	public void inputChar(){
@@ -53,7 +54,7 @@ public class CharacterSelect extends JPanel implements ActionListener{
 		for (String charString : available){
 			JRadioButton b1 = new JRadioButton(charString);
 			b1.addActionListener(this);
-			buttons.add(b1);
+			options.add(b1);
 			add(b1);
 			options.add(b1);
 		}

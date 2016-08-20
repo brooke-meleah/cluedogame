@@ -15,7 +15,10 @@ public class gamePanel extends JPanel {
 
 	private static Image boardImg;
 
-
+	/**
+	 * constructor for the gamePanel, sets the size and gets the image for board
+	 * 
+	 */
 	public gamePanel() {
 		try {
 			boardImg = ImageIO.read(new File("../cluedo2/images/clueboard.png"));
@@ -33,6 +36,10 @@ public class gamePanel extends JPanel {
 		return new Dimension(450, 470);
 	}
 
+	/**
+	 * Overrides the paintcomponent method and uses it to draw the board
+	 * 
+	 */
 	@Override
 	public void paintComponent(Graphics gr) {
 		super.paintComponent(gr);
