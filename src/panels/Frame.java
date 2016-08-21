@@ -38,7 +38,7 @@ public class Frame extends JFrame implements MouseListener, ActionListener {
 	public Frame(Main m){
 		
 		super ("Cluedo Game");
-		gp = new gamePanel();
+		gp = new gamePanel(this);
 		dp = new dicePanel();
 		hp = new handPanel();
 		cs = new CharacterSelect(this, m.getGame());

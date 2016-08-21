@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import cards.*;
+import main.Main;
 
 /**
  * The CluedoGame class contains the main game.
@@ -21,11 +22,13 @@ public class CluedoGame {
 
 	public Player start;
 	public Player current;
+	protected Main main;
 
 	public boolean gameOver;
 
-	public CluedoGame() {
+	public CluedoGame(Main m) {
 		//prep stuff
+		main = m;
 		deck = new Deck(this);
 		solution = deck.generateSoln();
 		deck.shuffle();
@@ -272,10 +275,6 @@ public class CluedoGame {
 				"W : Mrs. White\n" +
 				"@ : Current player\n";
 		System.out.println(key);
-	}
-
-	public static void main(String[] args){
-		new CluedoGame();
 	}
 
 }

@@ -11,15 +11,20 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import game.Board;
+import game.CluedoGame;
+import game.Player;
+
 public class gamePanel extends JPanel {
 
 	private static Image boardImg;
+	private Frame frame;
 
 	/**
 	 * constructor for the gamePanel, sets the size and gets the image for board
 	 * 
 	 */
-	public gamePanel() {
+	public gamePanel(Frame parent) {
 		try {
 			boardImg = ImageIO.read(new File("../cluedo2/images/clueboard.png"));
 
@@ -44,6 +49,16 @@ public class gamePanel extends JPanel {
 	public void paintComponent(Graphics gr) {
 		super.paintComponent(gr);
 		gr.drawImage(boardImg, 0, 0, null, null);
+		
+		//draw the things /on/ the board
+		CluedoGame game = frame.main.game;
+		Board board = game.board;
+		
+		Player p = game.start; int i = 0;
+		while(p.next() != game.start.next() && i < 1){
+			Image token = p.getImage();
+			gr.drawImage(token, p.x*20, p.y*20, null, null);
+		}
 		
 	}
 

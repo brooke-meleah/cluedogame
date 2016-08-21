@@ -14,6 +14,7 @@ import locations.RoomSquare;
 import locations.SecretPassage;
 import locations.Square;
 import locations.StartSquare;
+import panels.gamePanel;
 
 public class Board {
 
@@ -86,7 +87,7 @@ public class Board {
 		// print where everything is and highlight the current player with
 		// the current player icon - setup temp fields to hold the new
 		// movement.
-		printBoard();
+		//printBoard();
 		boolean moved = false;
 		int x = 0;
 		int y = 0;
@@ -137,13 +138,13 @@ public class Board {
 									rs.player = player;
 									squares[rs.x][rs.y].player = player;
 									System.out.println("You are in " + loc.name);
-									printBoard();
+									//printBoard();
 									return true;
 								}
 							}
 						}
 						//print updated board
-						printBoard();
+						//printBoard();
 						return true; // move is fine, finish and break loop
 					}
 				}
@@ -327,21 +328,6 @@ public class Board {
 		makeSecretPassage();
 		//makestart();
 		makehallWay();
-
-	}
-
-	/**
-	 * Print the board using the getSymbol() method in many classes in order
-	 * to provide a text based representation of the cluedo board for reference
-	 */
-	public void printBoard() {
-		for (int i = 0; i < 25; i++) {
-			for (int j = 0; j < 24; j++) {
-				System.out.print(squares[j][i].getSymbol());
-			}
-
-			System.out.println();
-		}
 
 	}
 

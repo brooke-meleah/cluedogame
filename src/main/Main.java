@@ -19,13 +19,13 @@ import panels.*;
  */
 public class Main {
 
-	private CluedoGame game;
+	public CluedoGame game;
 	private Board board;
-	private Frame frame;
+	public Frame frame;
 	
 	public Main(){
 		frame = new Frame(this);
-		game = new CluedoGame();
+		game = new CluedoGame(this);
 		board = game.board;
 		characterSelect();
 	}
