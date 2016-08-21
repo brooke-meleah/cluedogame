@@ -36,12 +36,14 @@ public class Frame extends JFrame implements MouseListener, ActionListener {
 	JButton confirm;
 
 	public Frame(Main m){
-		
 		super ("Cluedo Game");
+		
+		main = m;
+		
 		gp = new gamePanel(this);
 		dp = new dicePanel();
-		hp = new handPanel();
-		cs = new CharacterSelect(this, m.getGame());
+		hp = new handPanel(this, main.getGame());
+		cs = new CharacterSelect(this, main.getGame());
 
 		
 		setLayout(new BorderLayout());
@@ -49,8 +51,6 @@ public class Frame extends JFrame implements MouseListener, ActionListener {
 		add(gp, BorderLayout.WEST);
 		add(dp, BorderLayout.CENTER);
 		add(hp, BorderLayout.SOUTH);
-		
-		main = m;
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();

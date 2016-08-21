@@ -1,5 +1,6 @@
 package cards;
 
+import java.awt.Image;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ public class Card {
 	public final String name;
 	public CardType type;
 	public boolean solution = false;
+	public Image image;
 
 	/**
 	 * Construct a card with a given name. Every card in the game has a unique
@@ -25,9 +27,10 @@ public class Card {
 	 * @param name
 	 */
 
-	public Card(String cardname, CardType cardtype) {
+	public Card(String cardname, CardType cardtype,Image img) {
 		this.name = cardname;
 		this.type = cardtype;
+		this.image = img;
 	}
 
 	/**
@@ -40,12 +43,24 @@ public class Card {
 		return this.name;
 	};
 
+	
+	
+	/**
+	 * Get the image of this card.
+	 * 
+	 * @return name
+	 */
+	public Image getImage(){
+		return this.image;
+	}
+
+	
+	
 	/**
 	 * Get the type of this card.
 	 * 
 	 * @return name
 	 */
-
 	public CardType getType() {
 		return this.type;
 	};

@@ -31,6 +31,7 @@ public class gamePanel extends JPanel {
 		} catch (IOException e) {
 			System.out.println("file error.board");
 		}
+		frame = parent;
 		Dimension size = new Dimension(450, 470);
 		setPreferredSize(size);
 		setBorder(BorderFactory.createLineBorder(Color.black));
@@ -54,12 +55,13 @@ public class gamePanel extends JPanel {
 		CluedoGame game = frame.main.game;
 		Board board = game.board;
 		
+		if (game.start != null){
 		Player p = game.start; int i = 0;
 		while(p.next() != game.start.next() && i < 1){
 			Image token = p.getImage();
 			gr.drawImage(token, p.x*20, p.y*20, null, null);
 		}
-		
+		}
 	}
 
 	/**

@@ -45,6 +45,8 @@ public class CharacterSelect extends JPanel implements ActionListener{
 	}
 	
 	public void inputChar(){
+		System.out.println("input exists");
+		
 		//set up our JDialog
 		JPanel selectPan = new JPanel();
 		selectPan.setLayout(new FlowLayout());
@@ -72,6 +74,8 @@ public class CharacterSelect extends JPanel implements ActionListener{
 	    //put it all together.
 		selector = new JDialog(frame, "CharacterSelect");
 		selector.add(selectPan);
+		
+		this.repaint();
 	}
 	
 	/**
@@ -80,6 +84,7 @@ public class CharacterSelect extends JPanel implements ActionListener{
 	 * to the game.
 	 */
 	public void createPlayer(){
+		System.out.println("create exists");
 		//initialise/create the variables.
 		String character = "";
 		String player;

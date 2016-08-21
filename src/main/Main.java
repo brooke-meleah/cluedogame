@@ -24,8 +24,8 @@ public class Main {
 	public Frame frame;
 	
 	public Main(){
-		frame = new Frame(this);
 		game = new CluedoGame(this);
+		frame = new Frame(this);
 		board = game.board;
 		characterSelect();
 	}
