@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import cards.Card.CardType;
+import game.Board;
 import game.CluedoGame;
 import game.Player;
 
@@ -55,44 +56,7 @@ public class Deck {
 	CluedoGame game;
 
 	public Deck(CluedoGame game) {
-		
-		try {
-			// reading in weapon images
-			candle = ImageIO.read(new File("../cluedo2/images/candle.png"));
-			knife = ImageIO.read(new File("../cluedo2/images/knife.png"));
-			rope = ImageIO.read(new File("../cluedo2/images/rope.png"));
-			wrench = ImageIO.read(new File("../cluedo2/images/wrench.png"));
-			revolver = ImageIO.read(new File("../cluedo2/images/revolver.png"));
-			pipe = ImageIO.read(new File("../cluedo2/images/pipe.png"));
 
-			// reading in room images
-			ballroom = ImageIO.read(new File("../cluedo2/images/ballroom.png"));
-			billiardroom = ImageIO.read(new File("../cluedo2/images/billiardroom.png"));
-			conservatory = ImageIO.read(new File("../cluedo2/images/conservatory.png"));
-			diningroom = ImageIO.read(new File("../cluedo2/images/diningroom.png"));
-			hall = ImageIO.read(new File("../cluedo2/images/hall.png"));
-			kitchen = ImageIO.read(new File("../cluedo2/images/kitchen.png"));
-			library = ImageIO.read(new File("../cluedo2/images/library.png"));
-			study = ImageIO.read(new File("../cluedo2/images/study.png"));
-			lounge = ImageIO.read(new File("../cluedo2/images/lounge.png"));
-
-			// reading in character images
-			white = ImageIO.read(new File("../cluedo2/images/white.png"));
-			scarlet = ImageIO.read(new File("../cluedo2/images/scarlet.png"));
-			green = ImageIO.read(new File("../cluedo2/images/green.png"));
-			plum = ImageIO.read(new File("../cluedo2/images/plum.png"));
-			mustard = ImageIO.read(new File("../cluedo2/images/mustard.png"));
-			peacock = ImageIO.read(new File("../cluedo2/images/peacock.png"));
-
-			// random clue card images
-			clueclue = ImageIO.read(new File("../cluedo2/images/clueclue.png"));
-
-		} catch (IOException e) {
-			System.out.println("file error.cards" + e.getMessage());
-
-		}
-		
-		
 		deck = new ArrayList<Card>();
 		game = this.game;
 
@@ -107,6 +71,8 @@ public class Deck {
 	 */
 
 	private void fill() {
+		parseImages();
+
 		// generate empty sub-groups in order to fill.
 
 		characters = new ArrayList<Card>();
@@ -193,15 +159,57 @@ public class Deck {
 	 * players as a linked list using the fields in the Player
 	 */
 
-	public void deal(Player start) {
-
-		Player toDeal = start;
-		while (!deck.isEmpty()) {
-			toDeal.deal(deck.remove(0));
+	public void deal(Player toDeal) {
+		System.out.println("toDeal" + toDeal.toString());
+		while (deck.size() > 3) {
+			//if (start == null)System.out.println("HOW DOES THIS EVEN HAPPEN");
+			if (toDeal == null) System.out.println("what in the fuckening");
+			else System.out.println(toDeal.next());
+			if (deck.get(0) == null) System.out.println("fuck in the whatening");
+			toDeal.deal(deck.get(0));
+			deck.remove(0);
 			toDeal = toDeal.next();
 		}
 
 		System.out.println("Cards dealt.");
+	}
+
+	public void parseImages(){		
+		try {
+			// reading in weapon images
+			candle = ImageIO.read(new File("../cluedo2/images/candle.png"));
+			knife = ImageIO.read(new File("../cluedo2/images/knife.png"));
+			rope = ImageIO.read(new File("../cluedo2/images/rope.png"));
+			wrench = ImageIO.read(new File("../cluedo2/images/wrench.png"));
+			revolver = ImageIO.read(new File("../cluedo2/images/revolver.png"));
+			pipe = ImageIO.read(new File("../cluedo2/images/pipe.png"));
+
+			// reading in room images
+			ballroom = ImageIO.read(new File("../cluedo2/images/ballroom.png"));
+			billiardroom = ImageIO.read(new File("../cluedo2/images/billiardroom.png"));
+			conservatory = ImageIO.read(new File("../cluedo2/images/conservatory.png"));
+			diningroom = ImageIO.read(new File("../cluedo2/images/diningroom.png"));
+			hall = ImageIO.read(new File("../cluedo2/images/hall.png"));
+			kitchen = ImageIO.read(new File("../cluedo2/images/kitchen.png"));
+			library = ImageIO.read(new File("../cluedo2/images/library.png"));
+			study = ImageIO.read(new File("../cluedo2/images/study.png"));
+			lounge = ImageIO.read(new File("../cluedo2/images/lounge.png"));
+
+			// reading in character images
+			white = ImageIO.read(new File("../cluedo2/images/white.png"));
+			scarlet = ImageIO.read(new File("../cluedo2/images/scarlet.png"));
+			green = ImageIO.read(new File("../cluedo2/images/green.png"));
+			plum = ImageIO.read(new File("../cluedo2/images/plum.png"));
+			mustard = ImageIO.read(new File("../cluedo2/images/mustard.png"));
+			peacock = ImageIO.read(new File("../cluedo2/images/peacock.png"));
+
+			// random clue card images
+			clueclue = ImageIO.read(new File("../cluedo2/images/clueclue.png"));
+
+		} catch (IOException e) {
+			System.out.println("file error.cards" + e.getMessage());
+
+		}
 	}
 
 }

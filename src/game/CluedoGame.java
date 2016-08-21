@@ -23,11 +23,15 @@ public class CluedoGame {
 	public Player start;
 	public Player current;
 	protected Main main;
+	public State gameState;
 
-	public boolean gameOver;
+	public enum State {
+		UNSTARTED, ONGOING, OVER
+	};
 
 	public CluedoGame(Main m) {
 		//prep stuff
+		gameState = State.UNSTARTED;
 		main = m;
 		deck = new Deck(this);
 		solution = deck.generateSoln();
@@ -41,6 +45,7 @@ public class CluedoGame {
 	 * 
 	 */
 	public void newGame(){
+		gameState = State.ONGOING;
 		board = new Board(this);
 		deck.deal(start);
 
@@ -185,7 +190,7 @@ public class CluedoGame {
 			System.out.println("||---------GAME WON---------||");
 			System.out.println("Winner: " + current);
 			System.out.println("Solution " + check.toString());
-			gameOver = true;
+			gameState = State.OVER;
 			return;
 		}
 		else {

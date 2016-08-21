@@ -26,12 +26,16 @@ public class dicePanel extends JPanel implements ActionListener {
 	private static Image sixImg;
 	
 	private static Image clueNum;
+	
+	//the backreference
+	private Frame frame;
 
 	// buttons
 	private JButton roll;
 	private JButton accuse;
 	private JButton suggest;
 	private JButton endTurn;
+	private JButton newGame;
 
 	// the image that actually gets drawn4
 	public Image drawnImg;
@@ -41,7 +45,8 @@ public class dicePanel extends JPanel implements ActionListener {
 	 * buttons for the suggestion, accuse ,dice roll and end turn
 	 * 
 	 */
-	public dicePanel() {
+	public dicePanel(Frame p) {
+		frame = p;
 		try {
 			// reading in number images
 			oneImg = ImageIO.read(new File("../cluedo2/images/one.png"));
@@ -67,6 +72,11 @@ public class dicePanel extends JPanel implements ActionListener {
 		accuse = new JButton("Accuse");
 		suggest = new JButton("Suggest");
 		endTurn = new JButton("End Turn");
+		newGame = new JButton("New Game");
+
+		newGame.setPreferredSize(button);
+		newGame.addActionListener(this);
+		add(newGame, BorderLayout.SOUTH);
 
 		accuse.setPreferredSize(button);
 		accuse.addActionListener(this);
@@ -105,7 +115,9 @@ public class dicePanel extends JPanel implements ActionListener {
 		} else if (src == endTurn) {
 			// do the end turn thing
 			System.out.println("YOU HAVE ENDED");
-
+		}
+		else if (src == newGame){
+			frame.main.newGame();
 		}
 	}
 	/**
@@ -146,7 +158,7 @@ public class dicePanel extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics gr) {
 		super.paintComponent(gr);
-		gr.drawImage(drawnImg, 10, 150, null, null);
+		gr.drawImage(drawnImg, 10, 180, null, null);
 	}
 
 }

@@ -27,14 +27,16 @@ public class Main {
 		game = new CluedoGame(this);
 		frame = new Frame(this);
 		board = game.board;
-		//characterSelect();
 	}
 	
 	/**
 	 * This method creates and manages the game.
 	 */
 	public void newGame(){
+		if (game.gameState != CluedoGame.State.ONGOING){
+		characterSelect();
 		game.newGame();
+		}
 	}
 	
 	/**

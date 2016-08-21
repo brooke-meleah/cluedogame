@@ -213,7 +213,7 @@ public class Player {
 	}
 
 	public String toString() {
-		return "Player: " + name + " Character: " + " Hand: " + hand.toString();
+		return "Player: " + name + " Character: " + character + " Hand: " + hand.toString();
 
 	}
 

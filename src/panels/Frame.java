@@ -41,8 +41,9 @@ public class Frame extends JFrame implements MouseListener, ActionListener {
 		main = m;
 		
 		gp = new gamePanel(this);
-		dp = new dicePanel();
+		dp = new dicePanel(this);
 		hp = new handPanel(this, main.getGame());
+		cs = new CharacterSelect(this, main.getGame());
 
 		
 		setLayout(new BorderLayout());
@@ -60,7 +61,9 @@ public class Frame extends JFrame implements MouseListener, ActionListener {
 
 
 	public void characterSelect(){
-		CharacterSelect cs = new CharacterSelect(this, main.game);
+		while (!cs.finished)
+			cs.characterSelect();
+		System.out.println("done......");
 	}
 
 	@Override

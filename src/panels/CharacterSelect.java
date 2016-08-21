@@ -3,8 +3,10 @@ package panels;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -34,8 +36,8 @@ public class CharacterSelect extends JFrame implements ActionListener{
 	private List<JRadioButton> buttons;
 	private JDialog selector;
 	private JTextField tf;
-	private List<String> charList = Arrays.asList("Miss Scarlett", "Professor Plum", "Mrs. Peacock",
-				"Reverend Green", "Colonel Mustard", "Mrs. White");
+	private List<String> charList = new LinkedList<String>(Arrays.asList("Miss Scarlett", "Professor Plum", "Mrs. Peacock",
+				"Reverend Green", "Colonel Mustard", "Mrs. White"));
 	
 	public CharacterSelect(JFrame parent, CluedoGame g){
 		game = g;
@@ -43,6 +45,10 @@ public class CharacterSelect extends JFrame implements ActionListener{
 		chars = new ArrayList<Player>();
 		available = charList;
 		setVisible(true);
+	}
+	
+	public void characterSelect(){
+		System.out.println("yolo");
 		createAndShowGUI();
 	}
 	
@@ -149,21 +155,29 @@ public class CharacterSelect extends JFrame implements ActionListener{
 		//send the completed playerlist back up the pipeline.
 		if (finished){
 			chars.add(newChar);
+			int c = chars.indexOf(newChar);
+			Player cur = chars.get(c);
+			Player prev = chars.get(c-1);
+			prev.setNext(cur);
 			Player st = chars.get(0);
-			Player end = chars.get(chars.size()-1);
+			Player end = chars.get(chars.indexOf(newChar));
 			end.setNext(st);
 			game.allocatePlayers(chars);
 		}
 		else if (!finished && game.start == null){
 			chars.add(newChar);
+			game.start = newChar;
 		}
 		else{
 			chars.add(newChar);
-			Player cur = chars.get(chars.size()-1);
-			Player prev = chars.get(chars.size()-2);
+			int c = chars.indexOf(newChar);
+			Player cur = chars.get(c);
+			Player prev = chars.get(c-1);
 			prev.setNext(cur);
+			System.out.println(prev.toString() + "next :" + prev.next().toString());
 		}
 		
+		this.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 	}
 
 	@Override
