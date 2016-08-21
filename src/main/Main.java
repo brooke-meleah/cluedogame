@@ -27,7 +27,7 @@ public class Main {
 		game = new CluedoGame(this);
 		frame = new Frame(this);
 		board = game.board;
-		characterSelect();
+		//characterSelect();
 	}
 	
 	/**

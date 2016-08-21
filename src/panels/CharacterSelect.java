@@ -18,8 +18,9 @@ import javax.swing.JTextField;
 
 import game.CluedoGame;
 import game.Player;
+import main.Main;
 
-public class CharacterSelect extends JPanel implements ActionListener{
+public class CharacterSelect extends JFrame implements ActionListener{
 	
 	private CluedoGame game;
 	
@@ -42,41 +43,60 @@ public class CharacterSelect extends JPanel implements ActionListener{
 		chars = new ArrayList<Player>();
 		available = charList;
 		setVisible(true);
+		createAndShowGUI();
 	}
 	
-	public void inputChar(){
-		System.out.println("input exists");
-		
-		//set up our JDialog
-		JPanel selectPan = new JPanel();
-		selectPan.setLayout(new FlowLayout());
-		ButtonGroup options = new ButtonGroup();
-		
-		//create buttons for each AVAILABLE character
-		for (String charString : available){
-			JRadioButton b1 = new JRadioButton(charString);
-			b1.addActionListener(this);
-			options.add(b1);
-			add(b1);
-			options.add(b1);
-		}
-		
-		//create other parts of it - the name field and the button to confirm it.
-	    tf = new JTextField("[Player Name Here]", 20);
-	    add(tf);
-	    confirm = new JButton ("Confirm");
-	    add(confirm);
-	    
-	    //a button to let the selector know if all players are assigned before all charcaters.
-	    done = new JButton ("Done");
-	    add(done);
-
-	    //put it all together.
-		selector = new JDialog(frame, "CharacterSelect");
-		selector.add(selectPan);
-		
-		this.repaint();
-	}
+	 private void createAndShowGUI()
+	    {
+	        setTitle("Character Select.");
+	        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	        setLayout(new FlowLayout());
+	        buttons = new ArrayList<JRadioButton>();
+	        
+	        // A perfect constructor, mostly used.
+	        // A dialog with current frame as parent
+	        // a given title, and modal
+	        selector = new JDialog(this, "CharacterSelect", true);
+			
+			//create buttons for each AVAILABLE character
+			for (String charString : available){
+				JRadioButton b1 = new JRadioButton(charString);
+				b1.addActionListener(this);
+				selector.add(b1);
+				buttons.add(b1);
+			}
+			
+			//create other parts of it - the name field and the button to confirm it.
+		    tf = new JTextField("[Player Name Here]", 20);
+		    selector.add(tf);
+		    confirm = new JButton ("Confirm");
+		    confirm.addActionListener(this);
+		    selector.add(confirm);
+		    
+		    //a button to let the selector know if all players are assigned before all charcaters.
+		    done = new JButton ("Done");
+		    done.addActionListener(this);
+		    selector.add(done);
+			
+			//add components 
+			
+	        
+	        // Set size
+	        selector.setSize(400,150);
+	        
+	        // Set some layout
+	        selector.setLayout(new FlowLayout());
+	        
+	        
+	        setSize(400,150);
+	        setVisible(true);
+	        
+	        // Like JFrame, JDialog isn't visible, you'll
+	        // have to make it visible
+	        // Remember to show JDialog after its parent is
+	        // shown so that its parent is visible
+	        selector.setVisible(true);
+	    }
 	
 	/**
 	 * This method is called when the confirm button is pushed - it checks that the inputs are 
@@ -99,13 +119,13 @@ public class CharacterSelect extends JPanel implements ActionListener{
 		player = tf.getText();
 		
 		//check for valid input
-		if (!charList.contains(character) || character.equals("")){
-			JOptionPane.showMessageDialog(frame,
+		if (!available.contains(character) || character.equals("")){
+			JOptionPane.showMessageDialog(this,
 				    "Please choose a valid character and confirm again.");
 			valid = false;
 		}
 		if (player.equals(new String())){
-			JOptionPane.showMessageDialog(frame,
+			JOptionPane.showMessageDialog(this,
 					"Please choose a valid name and confirm again.");
 			valid = false;
 		}
@@ -115,6 +135,7 @@ public class CharacterSelect extends JPanel implements ActionListener{
 		//valid inputs -> new character created.
 		if (valid){
 			newChar = new Player (player, character, null);
+			System.out.println(newChar.toString());
 			available.remove(character);
 			chars.add(newChar);
 		}
