@@ -7,6 +7,8 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.swing.JPanel;
+
 import locations.Door;
 import locations.HallSquare;
 import locations.Location;
@@ -21,6 +23,7 @@ public class Board {
 	public CluedoGame game;
 	public Square[][] squares = new Square[24][25];
 	public List<Location> roomList = new ArrayList<>();
+	private Square newSquare = squares[0][0];
 
 	public Location empty = new Location("empty");
 	public Location ballroom = new Location("ballroom");
@@ -53,7 +56,7 @@ public class Board {
 		
 		if (player.location.isRoom()){
 			player.location.printRoom();
-			exitRoom(player);
+			//exitRoom(player);
 		}
 
 		List<Square> available = new ArrayList<Square>();
@@ -65,13 +68,10 @@ public class Board {
 		//first, load them all into a list assuming no obstacles
 		for (int x = -diceroll; x < diceroll; x++) {
 			for (int y = -diceroll; y < diceroll; y++) {
-				if (isValidSquare(centerX + x, centerY + y)) {
 					//System.out.println((x) + "," + (y));
 					Square temp = squares[centerX + x][centerY + y];
 					if (Math.abs(x) + Math.abs(y) < diceroll + 1) {
 						near.add(temp);
-
-					}
 				}
 			}
 		}
@@ -87,7 +87,6 @@ public class Board {
 		// print where everything is and highlight the current player with
 		// the current player icon - setup temp fields to hold the new
 		// movement.
-		//printBoard();
 		boolean moved = false;
 		int x = 0;
 		int y = 0;
@@ -96,23 +95,23 @@ public class Board {
 		System.out.println("You are at " + centerX + "," + centerY);
 		System.out.println("Available Moves: " + available.toString());
 		
+		game.gameState = CluedoGame.State.INPUT;
 		
-		while (!moved) {
-			System.out.println("Where do you move? (x y)");
-			Scanner read = new Scanner(System.in);
-			// read the input and cut off any brackets or commas.
-			if (!read.hasNextInt())
-				System.out.println(read.next());
-			else
-				x = read.nextInt();
-
-			while (!read.hasNextInt() && read.hasNext()) {
-				read.next();
+		while (game.gameState == CluedoGame.State.INPUT){
+			try {
+				Thread.sleep(200);
+				System.out.println("aa");
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-			y = read.nextInt();
-
+		}
+		
+		while (!moved && game.gameState == CluedoGame.State.ONGOING) {
+			System.out.println("a");
+			
+			if(game.gameState == CluedoGame.State.ONGOING){ //we have a new square now - check it
 			// check if move is valid
-			if (isValidSquare(x, y)) {
+			if (available.contains(newSquare)) {
 				for (Square sq : available) {
 					//change the players location to the available square they moved to
 					// as well as updating the references to the player
@@ -126,75 +125,33 @@ public class Board {
 						//print success
 						System.out.println("Move successful!");
 						
-						//if a player moved onto a door - move them into a room.
-						if (squares[x][y] instanceof Door){
+						//if a player moved onto a room - move them into a room.
+						if (squares[x][y] instanceof RoomSquare){
 							loc.players.add(player);
-							squares[x][y].player = null;
-							
-							//place the player on a random room tile to draw
-							Random r = new Random();
-							for (Square rs : loc.tiles){
-								if (rs.player == null && rs instanceof RoomSquare && r.nextInt(10) > 5){
-									rs.player = player;
-									squares[rs.x][rs.y].player = player;
-									System.out.println("You are in " + loc.name);
-									//printBoard();
-									return true;
-								}
-							}
 						}
-						//print updated board
-						//printBoard();
+						//show updated board
+						JPanel gamePanel = game.main.frame.getGamePanel();
+						gamePanel.repaint();
+						
 						return true; // move is fine, finish and break loop
 					}
 				}
 			}
+			else if (!available.contains(newSquare))
 			System.out.println("Move invalid - please try again!");
+		}
 		}
 		return false;
 	}
 	
 	/**
-	 * Called inside the movePlayer() method, this handles which door to exit from.
-	 * @param p
-	 * @return
+	 * Passed to the board class from the UI - the new location.
 	 */
-	public void exitRoom(Player p){
-		System.out.println("Which exit would you like to take? [x y] (or command)");
-		Scanner read = new Scanner (System.in);
-		
-		if (!read.hasNextInt() && read.nextLine().contains("/")){
-			game.parseCommand(read.nextLine());
-			return;
-		}
-		
-		//read in the location as "x y"
-		int x = 0; int y = 0;
-		if (!read.hasNextInt())
-			System.out.println(read.next());
-		else
-			x = read.nextInt();
-
-		while (!read.hasNextInt() && read.hasNext()) {
-			read.next();
-		}
-		y = read.nextInt();
-		
-		//iterate through the doors and print out their door options.
-		for (Door d : p.location.getDoors()){
-			if (d.x == x && d.y == y){
-				squares[p.x][p.y].player = null;
-				p.setPosition(x, y);
-				squares[x][y].player = p;
-				System.out.println("Using " + d.direction + "door.");
-				return;
-			}
-		}
-		
-		//no matches - invalid door
-		System.out.println("Invalid door: Please use format 'x y'");
-		exitRoom(p);
+	public void newMove(int x, int y){
+		game.gameState = CluedoGame.State.ONGOING;
+		newSquare = squares[x][y];
 	}
+	
 	
 	/**
 	 * This handles moving through a secret passage from one room to the other, 
@@ -259,16 +216,16 @@ public class Board {
 			}
 			
 			//check neighbours
-			if (isValidSquare(s.x, s.y+1)&& squares[s.x][s.y+1].dist > s.dist){
+			if (isValidMove(s.x, s.y, s.x, s.y+1)&& squares[s.x][s.y+1].dist > s.dist){
 				squares[s.x][s.y+1].dist = s.dist+1;
 				fringe.add(squares[s.x][s.y+1]);}
-			if (isValidSquare(s.x, s.y-1)&& squares[s.x][s.y-1].dist > s.dist){
+			if (isValidMove(s.x, s.y,s.x, s.y-1)&& squares[s.x][s.y-1].dist > s.dist){
 				squares[s.x][s.y-1].dist = s.dist+1;
 				fringe.add(squares[s.x][s.y-1]);}
-			if (isValidSquare(s.x+1, s.y)&& squares[s.x+1][s.y].dist > s.dist){
+			if (isValidMove(s.x, s.y,s.x+1, s.y)&& squares[s.x+1][s.y].dist > s.dist){
 				squares[s.x+1][s.y].dist = s.dist+1;
 				fringe.add(squares[s.x+1][s.y]);}
-			if (isValidSquare(s.x-1, s.y) && squares[s.x-1][s.y].dist > s.dist){
+			if (isValidMove(s.x, s.y,s.x-1, s.y) && squares[s.x-1][s.y].dist > s.dist){
 				squares[s.x-1][s.y].dist = s.dist+1;
 				fringe.add(squares[s.x-1][s.y]);}
 			
@@ -296,11 +253,45 @@ public class Board {
 			//cant move onto an occupied square
 			return false;
 		}
-		if (squares[x][y] instanceof RoomSquare) {
-			//cant move onto a room square
+		if (squares[x][y].location == empty) {
+			//cant move onto an 'empty' (functionally null) square
 			return false;
 		}
-		if (squares[x][y].location == empty) {
+		return true;
+	}
+	
+	/**
+	 * Helper method to check if a square MOVE is before the square is
+	 * called from the board.
+	 * 
+	 */
+	public boolean isValidMove(int x1, int y1, int x2, int y2) {
+		//System.out.println(x + "," + y);
+		if (x2 > 23 || x2 < 0) {
+			//x out of bounds
+			return false;
+		}
+		if (y2 > 24 || y2 < 0) {
+			//y out of bounds
+			return false;
+		}
+		if (squares[x2][y2].player != null) {
+			//cant move onto an occupied square
+			return false;
+		}
+		if (squares[x2][y2] instanceof RoomSquare) {
+			if (squares[x1][y1] instanceof RoomSquare){
+				//can move from room to room
+				return true;
+			}
+			if (squares[x1][y1] instanceof Door){
+				//can move from door to room
+				return true;
+			}
+			//cant move onto a room square from anything else
+			return false;
+		}
+		if (squares[x2][y2].location == empty) {
 			//cant move onto an 'empty' (functionally null) square
 			return false;
 		}

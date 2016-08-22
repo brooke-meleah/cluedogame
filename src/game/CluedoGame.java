@@ -23,16 +23,18 @@ public class CluedoGame {
 	public Player start;
 	public Player current;
 	protected Main main;
-	public State gameState;
+	public volatile State gameState;
+	private int diceroll;
 
 	public enum State {
-		UNSTARTED, ONGOING, OVER
+		UNSTARTED, ONGOING, OVER, INPUT
 	};
 
 	public CluedoGame(Main m) {
 		//prep stuff
 		gameState = State.UNSTARTED;
 		main = m;
+		board = new Board(this);
 		deck = new Deck(this);
 		solution = deck.generateSoln();
 		deck.shuffle();
@@ -67,21 +69,18 @@ public class CluedoGame {
 	 */
 	public void takeTurn(Player p){
 		
-		//clear the console out
-		for (int i = 0; i < 12; i++){
-			System.out.println("");
-		}
-		
 		//check if this player can take a turn in the first place
 		current = p;
-
 		if (!current.validPlayer()){
 			System.out.println(current + "Is an invalid Player!");
 			return;
 		}
+		
 		//they are valid - take turn and roll the dice for them.
-		System.out.println(current.getName() + "'s Turn!");
-		int diceroll = (int)(Math.random() * 6+1);
+		System.out.println(current.getName() + "'s Turn! Roll the Dice");
+		
+		gameState = CluedoGame.State.INPUT;
+		diceroll = main.frame.diceRoll();
 		
 		//pass to move player method to take care of movement.
 		board.movePlayer(diceroll, current);
@@ -95,6 +94,16 @@ public class CluedoGame {
 		parseCommand(line);
 		}
 	}
+	
+	/**
+	 * Small helper method to let the dice input panel set the dice value.
+	 * 
+	 * @param dr
+	 */
+	public void setDice(int dr){
+		diceroll = dr;
+		gameState = State.ONGOING;
+	}
 
 
 	/**
@@ -104,7 +113,12 @@ public class CluedoGame {
 	 * the Player.next fields/methods
 	 */
 	public void allocatePlayers(List<Player> pList){
+		System.out.println("========================================");
 		start = pList.get(0);
+		System.out.println(pList.toString());
+		for (Player p : pList){
+			board.placePlayer(p);
+		}
 	}
 
 	/**

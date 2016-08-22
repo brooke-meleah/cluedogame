@@ -19,12 +19,14 @@ public class gamePanel extends JPanel {
 
 	private static Image boardImg;
 	private Frame frame;
+	
 
 	/**
 	 * constructor for the gamePanel, sets the size and gets the image for board
 	 * 
 	 */
 	public gamePanel(Frame parent) {
+		
 		try {
 			boardImg = ImageIO.read(new File("../cluedo2/images/clueboard.png"));
 
@@ -55,13 +57,12 @@ public class gamePanel extends JPanel {
 		CluedoGame game = frame.main.game;
 		Board board = game.board;
 		
-		if (game.start != null){
-		Player p = game.start; int i = 0;
-		while(p.next() != game.start.next() && i < 1){
-			Image token = p.getImage();
-			gr.drawImage(token, p.x*20, p.y*20, null, null);
+		Player p = game.start;
+		while (p != null && p.next() != null && p.next() != game.start ){
+			gr.drawImage(p.getImage(), p.x, p.y, null, null);
 		}
-		}
+		
+		
 	}
 
 	/**
@@ -72,10 +73,13 @@ public class gamePanel extends JPanel {
 	 * @param y
 	 */
 	public void findSquare(int x, int y) {
+		CluedoGame game = frame.main.getGame();
 		int a = x / 20 + 1;
 		int b = (y - 25) / 20 + 1;
 		System.out.println("Square[" + a + "," + b + "]");
-
+		if (game.gameState == CluedoGame.State.INPUT){
+			game.board.newMove(a-1, b-1);
+		}
 	}
 
 

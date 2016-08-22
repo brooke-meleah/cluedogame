@@ -15,6 +15,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import game.CluedoGame;
+
 public class dicePanel extends JPanel implements ActionListener {
 
 	// number images
@@ -26,6 +28,7 @@ public class dicePanel extends JPanel implements ActionListener {
 	private static Image sixImg;
 	
 	private static Image clueNum;
+	public int dice;
 	
 	//the backreference
 	private Frame frame;
@@ -80,18 +83,22 @@ public class dicePanel extends JPanel implements ActionListener {
 
 		accuse.setPreferredSize(button);
 		accuse.addActionListener(this);
+		accuse.setToolTipText("Accusation!!!!!");
 		add(accuse, BorderLayout.SOUTH);
 
 		suggest.setPreferredSize(button);
 		suggest.addActionListener(this);
+		suggest.setToolTipText("Suggest a possible result");
 		add(suggest, BorderLayout.SOUTH);
 
 		endTurn.setPreferredSize(button);
 		endTurn.addActionListener(this);
+		endTurn.setToolTipText("End your turn");
 		add(endTurn, BorderLayout.SOUTH);
 
 		roll.setPreferredSize(button);
 		roll.addActionListener(this);
+		roll.setToolTipText("Go on,have a spin");
 		add(roll, BorderLayout.NORTH);
 
 	}
@@ -106,10 +113,11 @@ public class dicePanel extends JPanel implements ActionListener {
 		if (src == roll) {
 			rollDice();
 		} else if (src == accuse) {
-			// do the accuse thing
+			frame.openAccuse();
 			System.out.println("ACCUSE");
 		} else if (src == suggest) {
 			// do the suggest thing
+			frame.openSuggest();
 			System.out.println("SUGGEST");
 
 		} else if (src == endTurn) {
@@ -126,9 +134,15 @@ public class dicePanel extends JPanel implements ActionListener {
 	 * 
 	 */
 	private void rollDice() {
-
+		
+		CluedoGame game = frame.main.getGame();
+		game.gameState = CluedoGame.State.ONGOING;
 		double d = 6 * Math.random() + 1;
+		
+		
 		int i = (int) d;
+		this.dice = i;
+		
 		if (i == 1) {
 			drawnImg = oneImg;
 		} else if (i == 2) {
@@ -143,7 +157,6 @@ public class dicePanel extends JPanel implements ActionListener {
 			drawnImg = sixImg;
 		}
 		repaint();
-
 	}
 
 	// @Override

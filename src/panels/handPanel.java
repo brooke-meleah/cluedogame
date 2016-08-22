@@ -19,8 +19,8 @@ import game.Player;
 
 public class handPanel extends JPanel {
 
-	
-	
+
+
 	private JFrame fr;
 	private CluedoGame cl;
 
@@ -57,14 +57,20 @@ public class handPanel extends JPanel {
 	public void paintComponent(Graphics gr) {
 		super.paintComponent(gr);
 		if (currentPlayer != null){
-		hand = currentPlayer.hand();
-		// this may or may not actually work but should draw the hand 
-		for (int i = 0; i < 6; i++) {
-			if (i < hand.size()) {
-				gr.drawImage(hand.get(i).getImage(), i * 100, 0, null, null);
-			} else
-				gr.drawImage(clueclue, i * 100, 0, null, null);
+			hand = currentPlayer.hand();
+			// this may or may not actually work but should draw the hand 
+			for (int i = 0; i < 6; i++) {
+				if (i < hand.size()) {
+					gr.drawImage(hand.get(i).getImage(), i * 100, 0, null, null);
+				} else
+					gr.drawImage(clueclue, i * 100, 0, null, null);
+			}
 		}
+		else { //no current - no game yet.
+			for (int i = 0; i < 6; i++) {
+				gr.drawImage(clueclue, i * 100, 0, null, null);
+			}
+
 		}
 	}
 }

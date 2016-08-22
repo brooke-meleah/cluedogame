@@ -110,7 +110,7 @@ public class CharacterSelect extends JFrame implements ActionListener{
 	 * to the game.
 	 */
 	public void createPlayer(){
-		System.out.println("create exists");
+		//System.out.println("create exists");
 		//initialise/create the variables.
 		String character = "";
 		String player;
@@ -153,8 +153,7 @@ public class CharacterSelect extends JFrame implements ActionListener{
 		
 		//add the player to the list and link them up. once the players are done being assigned, 
 		//send the completed playerlist back up the pipeline.
-		if (finished){
-			chars.add(newChar);
+		if (available.size() == 0 || finished == true){
 			int c = chars.indexOf(newChar);
 			Player cur = chars.get(c);
 			Player prev = chars.get(c-1);
@@ -162,21 +161,22 @@ public class CharacterSelect extends JFrame implements ActionListener{
 			Player st = chars.get(0);
 			Player end = chars.get(chars.indexOf(newChar));
 			end.setNext(st);
+			game.board.placePlayer(newChar);
 			game.allocatePlayers(chars);
 		}
 		else if (!finished && game.start == null){
-			chars.add(newChar);
 			game.start = newChar;
+			game.board.placePlayer(newChar);
 		}
 		else{
-			chars.add(newChar);
 			int c = chars.indexOf(newChar);
 			Player cur = chars.get(c);
 			Player prev = chars.get(c-1);
 			prev.setNext(cur);
-			System.out.println(prev.toString() + "next :" + prev.next().toString());
-		}
+			game.board.placePlayer(newChar);
+			//System.out.println(prev.toString() + "next :" + prev.next().toString());
 		
+		}
 		this.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 	}
 
@@ -186,7 +186,7 @@ public class CharacterSelect extends JFrame implements ActionListener{
 		if (src.equals(confirm)){
 			createPlayer();
 		}
-		if (src.equals(done) || available.size() == 1){
+		if (src.equals(done)){
 			finished = true;
 			createPlayer();
 		}
